@@ -124,13 +124,141 @@ func (*EchoOutputPlaceholder) Descriptor() ([]byte, []int) {
 	return file_messages_proto_rawDescGZIP(), []int{1}
 }
 
+// HTTPRequest is FetchHTTP's GENERIC (ADR-122) input — a real, concrete,
+// named message with fields GENERALIZED broad enough to cover every intended
+// use of the node (any URL, any method, any headers), unlike
+// EchoInputPlaceholder above. An Instance later maps a flow's real,
+// narrower shape onto these fields by name — ordinary node code, no wire-byte
+// decoding required to read them.
+type HTTPRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Url           string                 `protobuf:"bytes,1,opt,name=url,proto3" json:"url,omitempty"`
+	Method        string                 `protobuf:"bytes,2,opt,name=method,proto3" json:"method,omitempty"` // "GET", "POST", etc.
+	Body          string                 `protobuf:"bytes,3,opt,name=body,proto3" json:"body,omitempty"`     // request body, empty for GET
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HTTPRequest) Reset() {
+	*x = HTTPRequest{}
+	mi := &file_messages_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HTTPRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HTTPRequest) ProtoMessage() {}
+
+func (x *HTTPRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_messages_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HTTPRequest.ProtoReflect.Descriptor instead.
+func (*HTTPRequest) Descriptor() ([]byte, []int) {
+	return file_messages_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *HTTPRequest) GetUrl() string {
+	if x != nil {
+		return x.Url
+	}
+	return ""
+}
+
+func (x *HTTPRequest) GetMethod() string {
+	if x != nil {
+		return x.Method
+	}
+	return ""
+}
+
+func (x *HTTPRequest) GetBody() string {
+	if x != nil {
+		return x.Body
+	}
+	return ""
+}
+
+// HTTPResponse is FetchHTTP's GENERIC (ADR-122) output — same generalized-field
+// pattern as HTTPRequest above.
+type HTTPResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	StatusCode    int32                  `protobuf:"varint,1,opt,name=status_code,json=statusCode,proto3" json:"status_code,omitempty"`
+	Body          string                 `protobuf:"bytes,2,opt,name=body,proto3" json:"body,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *HTTPResponse) Reset() {
+	*x = HTTPResponse{}
+	mi := &file_messages_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *HTTPResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*HTTPResponse) ProtoMessage() {}
+
+func (x *HTTPResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_messages_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use HTTPResponse.ProtoReflect.Descriptor instead.
+func (*HTTPResponse) Descriptor() ([]byte, []int) {
+	return file_messages_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *HTTPResponse) GetStatusCode() int32 {
+	if x != nil {
+		return x.StatusCode
+	}
+	return 0
+}
+
+func (x *HTTPResponse) GetBody() string {
+	if x != nil {
+		return x.Body
+	}
+	return ""
+}
+
 var File_messages_proto protoreflect.FileDescriptor
 
 const file_messages_proto_rawDesc = "" +
 	"\n" +
 	"\x0emessages.proto\x12\x1baxiom_official.generic_echo\"\x16\n" +
 	"\x14EchoInputPlaceholder\"\x17\n" +
-	"\x15EchoOutputPlaceholderB\aZ\x05.;genb\x06proto3"
+	"\x15EchoOutputPlaceholder\"K\n" +
+	"\vHTTPRequest\x12\x10\n" +
+	"\x03url\x18\x01 \x01(\tR\x03url\x12\x16\n" +
+	"\x06method\x18\x02 \x01(\tR\x06method\x12\x12\n" +
+	"\x04body\x18\x03 \x01(\tR\x04body\"C\n" +
+	"\fHTTPResponse\x12\x1f\n" +
+	"\vstatus_code\x18\x01 \x01(\x05R\n" +
+	"statusCode\x12\x12\n" +
+	"\x04body\x18\x02 \x01(\tR\x04bodyB\aZ\x05.;genb\x06proto3"
 
 var (
 	file_messages_proto_rawDescOnce sync.Once
@@ -144,10 +272,12 @@ func file_messages_proto_rawDescGZIP() []byte {
 	return file_messages_proto_rawDescData
 }
 
-var file_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_messages_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_messages_proto_goTypes = []any{
 	(*EchoInputPlaceholder)(nil),  // 0: axiom_official.generic_echo.EchoInputPlaceholder
 	(*EchoOutputPlaceholder)(nil), // 1: axiom_official.generic_echo.EchoOutputPlaceholder
+	(*HTTPRequest)(nil),           // 2: axiom_official.generic_echo.HTTPRequest
+	(*HTTPResponse)(nil),          // 3: axiom_official.generic_echo.HTTPResponse
 }
 var file_messages_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -168,7 +298,7 @@ func file_messages_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_messages_proto_rawDesc), len(file_messages_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

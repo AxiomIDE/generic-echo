@@ -1,12 +1,20 @@
 name: axiom-official/generic-echo
-version: 0.1.0
+version: 0.2.0
 language: go
-description: 'ADR-118 fixture: a field-less Generic node (both ports) for GIN-13''s e2e CLI round-trip capstone.'
+description: 'ADR-118 fixture: a field-less Generic node (both ports) for GIN-13''s e2e CLI round-trip capstone. 0.2.0 adds FetchHTTP, an ADR-122 demo of the corrected pattern (concrete, generalized-field generic ports) — 0.1.0 (pinned by wave-026/028/029 e2e specs) is untouched.'
 nodes:
     - name: Echo
       description: 'Generic (ADR-118) echo node: reads its input''s raw generic-port fields structurally (by number, not name) and emits a transformed value the same way. Only placeable via an Instance that binds concrete input/output facades.'
       input: EchoInputPlaceholder
       output: EchoOutputPlaceholder
+      kind: generic
+      generic_ports:
+        - input
+        - output
+    - name: FetchHTTP
+      description: 'ADR-122 demo: a Generic HTTP-fetch node with concrete, generalized fields (not a field-less placeholder). An Instance maps its url/method/body onto a specific flow''s real shape.'
+      input: HTTPRequest
+      output: HTTPResponse
       kind: generic
       generic_ports:
         - input

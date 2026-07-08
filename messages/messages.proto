@@ -40,3 +40,22 @@ message EchoInputPlaceholder {
 // projects those numbered fields onto the Instance's real, named output facade.
 message EchoOutputPlaceholder {
 }
+
+// HTTPRequest is FetchHTTP's GENERIC (ADR-122) input — a real, concrete,
+// named message with fields GENERALIZED broad enough to cover every intended
+// use of the node (any URL, any method, any headers), unlike
+// EchoInputPlaceholder above. An Instance later maps a flow's real,
+// narrower shape onto these fields by name — ordinary node code, no wire-byte
+// decoding required to read them.
+message HTTPRequest {
+  string url = 1;
+  string method = 2; // "GET", "POST", etc.
+  string body = 3;   // request body, empty for GET
+}
+
+// HTTPResponse is FetchHTTP's GENERIC (ADR-122) output — same generalized-field
+// pattern as HTTPRequest above.
+message HTTPResponse {
+  int32 status_code = 1;
+  string body = 2;
+}
